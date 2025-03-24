@@ -59,7 +59,7 @@ export default function LoginPage(){
                                             {...field}/>
                                     </FormControl>
                                     <FormDescription>
-                                        Enter your email address that you registered with MyHarmony
+                                        Enter your email address that registered with MyHarmony
                                     </FormDescription>
                                     <FormMessage />
                                 </FormItem>
