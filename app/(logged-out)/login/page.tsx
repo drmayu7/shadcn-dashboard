@@ -1,13 +1,13 @@
 "use client";
-import {Card, CardDescription, CardHeader, CardTitle, CardContent, CardFooter} from "@/components/ui/card";
-import {Button} from "@/components/ui/button";
+import { Card, CardDescription, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import {BrainIcon} from "lucide-react";
+import { BrainIcon } from "lucide-react";
 
 export default function LoginPage(){
     return(
         <>
-                <BrainIcon size={50}/>
+                <BrainIcon size={50} />
             <Card className="w-full max-w-sm">
                 <CardHeader>
                     <CardTitle>
