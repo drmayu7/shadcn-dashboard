@@ -4,14 +4,21 @@ import { useState } from 'react'
 import {TooltipProvider, TooltipTrigger, Tooltip, TooltipContent} from "./tooltip";
 import { MoonIcon,SunIcon } from "lucide-react";
 
-export default function LightDarkToggle() {
+type Props = {
+    className?: string;
+}
+
+export default function LightDarkToggle({className}: Props) {
     const[isDarkMode,setIsDarkMode] = useState(true)
 
     return(
             <TooltipProvider>
                 <Tooltip>
-                    <TooltipTrigger onClick={()=>{
-                        setIsDarkMode(prevState => !prevState)
+                    <TooltipTrigger
+                        className={className}
+                        onClick={()=>{
+                            setIsDarkMode(prevState => !prevState);
+                            document.body.classList.toggle('dark');
                     }}>
                         {isDarkMode ? <MoonIcon/> : <SunIcon/>}
                     </TooltipTrigger>
