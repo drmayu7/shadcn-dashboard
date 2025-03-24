@@ -13,9 +13,25 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
 
 
+const accountTypes = [
+    { value: 'MOH', label: 'Ministry of Health' },
+    { value: 'Private', label: 'Private Facilities' },
+    { value: 'Army', label: 'Army Facilities' },
+    // Add more options as needed
+] as const;
+
+const accountTypeValues = accountTypes.map(type => type.value);
+
+// Ensure the array is not empty
+if (accountTypeValues.length === 0) {
+    throw new Error("accountTypeValues must have at least one value");
+}
+
+const accountTypeEnum = z.enum([accountTypeValues[0], ...accountTypeValues.slice(1)]);
+
 const formSchema = z.object({
     email: z.string().min(1, { message: "Email is required" }).email({ message: "Invalid email address" }),
-    accountType: z.enum(['MOH', 'Non-MOH']),
+    accountType: accountTypeEnum,
     facilityName: z.string().optional(),
     numberOfEmployees: z.coerce.number().optional(),
 });
@@ -64,30 +80,26 @@ export default function SignupPage(){
                                                <FormMessage />
                                            </FormItem>
                                        )}/>
-                            <FormField control={form.control}
-                                       name="accountType"
-                                       render={
-                                           ({field}) => (
-                                               <FormItem>
-                                                   <FormLabel>
-                                                         Account type
-                                                   </FormLabel>
-                                                   <Select onValueChange={field.onChange}>
-                                                        <FormControl>
-                                                            <SelectTrigger className="w-full">
-                                                                <SelectValue placeholder='Select an account type'/>
-                                                            </SelectTrigger>
-                                                        </FormControl>
-                                                       <SelectContent>
-                                                           <SelectItem value='MOH'>Ministry of Health</SelectItem>
-                                                           <SelectItem value='Non-MOH'>Others</SelectItem>
-                                                       </SelectContent>
-                                                   </Select>
-                                                   <FormMessage />
-                                               </FormItem>
-                                           )
-                                       }
-                            />
+                            <FormField control={form.control} name="accountType" render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Account type</FormLabel>
+                                    <Select onValueChange={field.onChange}>
+                                        <FormControl>
+                                            <SelectTrigger className="w-full">
+                                                <SelectValue placeholder='Select an account type' />
+                                            </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                            {accountTypes.map((type) => (
+                                                <SelectItem key={type.value} value={type.value}>
+                                                    {type.label}
+                                                </SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
+                                    <FormMessage />
+                                </FormItem>
+                            )} />
                             <Button type="submit">Sign up</Button>
                         </form>
                     </Form>
