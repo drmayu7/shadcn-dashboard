@@ -36,6 +36,15 @@ const formSchema = z
         accountType: accountTypeEnum,
         organizationName: z.string().min(1, { message: "Organization name is required" }).optional(),
         numberOfEmployees: z.coerce.number().optional(),
+        dob: z.date().refine((date) => {
+            const today = new Date();
+            const eighteenYearsAgo = new Date(
+                today.getFullYear() - 18,
+                today.getMonth(),
+                today.getDate()
+            );
+            return date <= eighteenYearsAgo;
+        },'You must be at least 18 years old')
     })
     .superRefine((data, ctx) => {
         if (data.accountType === 'Private' && !data.organizationName) {
