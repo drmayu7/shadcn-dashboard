@@ -30,28 +30,30 @@ if (accountTypeValues.length === 0) {
 
 const accountTypeEnum = z.enum([accountTypeValues[0], ...accountTypeValues.slice(1)]);
 
-const formSchema = z.object({
-    email: z.string().min(1, { message: "Email is required" }).email({ message: "Invalid email address" }),
-    accountType: accountTypeEnum,
-    organizationName: z.string().min(1, { message: "Organization name is required" }).optional(),
-    numberOfEmployees: z.coerce.number().optional(),
-}).superRefine((data,ctx)=>{
-    if (data.accountType === 'Private' && !data.organizationName){
-        ctx.addIssue({
-            code: z.ZodIssueCode.custom,
-            path: ['organizationName'],
-            message: 'Organization name is required for private facilities'
-        });
-    }
-    if (data.accountType === 'Private' && (!data.numberOfEmployees || data.numberOfEmployees < 0)){
-        ctx.addIssue({
-            code: z.ZodIssueCode.custom,
-            path: ['numberOfEmployees'],
-            message: 'Number of employees is required for private facilities'
-        })
-    }
+const formSchema = z
+    .object({
+        email: z.string().min(1, { message: "Email is required" }).email({ message: "Invalid email address" }),
+        accountType: accountTypeEnum,
+        organizationName: z.string().min(1, { message: "Organization name is required" }).optional(),
+        numberOfEmployees: z.coerce.number().optional(),
+    })
+    .superRefine((data, ctx) => {
+        if (data.accountType === 'Private' && !data.organizationName) {
+            ctx.addIssue({
+                code: z.ZodIssueCode.custom,
+                path: ['organizationName'],
+                message: 'Organization name is required for private facilities',
+            });
+        }
+        if (data.accountType === 'Private' && (!data.numberOfEmployees || data.numberOfEmployees < 0)) {
+            ctx.addIssue({
+                code: z.ZodIssueCode.custom,
+                path: ['numberOfEmployees'],
+                message: 'Number of employees is required for private facilities',
+            });
+        }
+    });
 
-})
 
 export default function SignupPage(){
 
@@ -59,14 +61,14 @@ export default function SignupPage(){
         resolver: zodResolver(formSchema),
         defaultValues:{
             email: '',
-            accountType: 'Public',
-            organizationName: '',
-            numberOfEmployees: 0
+            accountType: undefined,
+            // organizationName: '',
+            // numberOfEmployees: 0
         }
     });
 
     const handleSubmit = () => {
-        console.log('login validation passed');
+        console.log('sign-up validation passed');
     };
 
     const accountType = form.watch('accountType')
