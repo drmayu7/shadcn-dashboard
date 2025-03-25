@@ -14,9 +14,10 @@ import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/c
 
 
 const accountTypes = [
-    { value: 'MOH', label: 'Ministry of Health' },
+    { value: 'Public', label: 'Ministry of Health' },
     { value: 'Private', label: 'Private Facilities' },
     { value: 'Army', label: 'Army Facilities' },
+    { value: 'Institute', label: 'Institute/Universities' },
     // Add more options as needed
 ] as const;
 
@@ -32,8 +33,16 @@ const accountTypeEnum = z.enum([accountTypeValues[0], ...accountTypeValues.slice
 const formSchema = z.object({
     email: z.string().min(1, { message: "Email is required" }).email({ message: "Invalid email address" }),
     accountType: accountTypeEnum,
-    facilityName: z.string().optional(),
+    organizationName: z.string().min(1, { message: "Organization name is required" }).optional(),
     numberOfEmployees: z.coerce.number().optional(),
+}).superRefine((data,ctx)=>{
+    if (data.accountType === 'Private' && !data.organizationName){
+        ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            path: ['organizationName'],
+            message: 'Organization name is required for private facilities'
+        })
+    }
 });
 
 export default function SignupPage(){
@@ -41,13 +50,18 @@ export default function SignupPage(){
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues:{
-            email: ''
+            email: '',
+            accountType: 'Public',
+            organizationName: '',
+            numberOfEmployees: 0
         }
     });
 
     const handleSubmit = () => {
         console.log('login validation passed');
-    }
+    };
+
+    const accountType = form.watch('accountType')
 
     return(
         <>
@@ -70,11 +84,11 @@ export default function SignupPage(){
                                             ({field})=> (
                                            <FormItem>
                                                <FormLabel>
-                                                   Email
+                                                   Official Email
                                                </FormLabel>
                                                <FormControl>
                                                    <Input
-                                                       placeholder='naufal.nordin@moh.gov.my'
+                                                       placeholder='e.g naufal.nordin@moh.gov.my'
                                                        {...field}/>
                                                </FormControl>
                                                <FormMessage />
@@ -100,6 +114,44 @@ export default function SignupPage(){
                                     <FormMessage />
                                 </FormItem>
                             )} />
+                            {accountType === 'Private' &&
+                            <>
+                                <FormField control={form.control}
+                                           name="organizationName"
+                                           render={
+                                               ({field})=> (
+                                                   <FormItem>
+                                                       <FormLabel>
+                                                           Organization Name
+                                                       </FormLabel>
+                                                       <FormControl>
+                                                           <Input
+                                                               placeholder='e.g CareClinics Sdn Bhd'
+                                                               {...field}/>
+                                                       </FormControl>
+                                                       <FormMessage />
+                                                   </FormItem>
+                                               )}/>
+                                <FormField control={form.control}
+                                           name="numberOfEmployees"
+                                           render={
+                                               ({field})=> (
+                                                   <FormItem>
+                                                       <FormLabel>
+                                                           Number of Employees
+                                                       </FormLabel>
+                                                       <FormControl>
+                                                           <Input
+                                                               placeholder='Please enter a number'
+                                                               type='number'
+                                                               min={0}
+                                                               {...field}/>
+                                                       </FormControl>
+                                                       <FormMessage />
+                                                   </FormItem>
+                                               )}/>
+                            </>
+                            }
                             <Button type="submit">Sign up</Button>
                         </form>
                     </Form>
