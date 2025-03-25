@@ -41,9 +41,17 @@ const formSchema = z.object({
             code: z.ZodIssueCode.custom,
             path: ['organizationName'],
             message: 'Organization name is required for private facilities'
+        });
+    }
+    if (data.accountType === 'Private' && (!data.numberOfEmployees || data.numberOfEmployees < 0)){
+        ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            path: ['numberOfEmployees'],
+            message: 'Number of employees is required for private facilities'
         })
     }
-});
+
+})
 
 export default function SignupPage(){
 
