@@ -12,7 +12,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
 import {Popover, PopoverTrigger} from "@/components/ui/popover";
-
+import { toast } from "sonner"
 
 const accountTypes = [
     { value: 'Public', label: 'Ministry of Health' },
@@ -77,7 +77,12 @@ export default function SignupPage(){
         }
     });
 
-    const handleSubmit = () => {
+    const handleSubmit = (data: z.infer<typeof formSchema>) => {
+        toast(
+            <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
+        </pre>
+        );
         console.log('sign-up validation passed');
     };
 
