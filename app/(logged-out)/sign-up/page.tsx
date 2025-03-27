@@ -11,8 +11,9 @@ import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
-import {Popover, PopoverTrigger} from "@/components/ui/popover";
+import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
 import { toast } from "sonner"
+import {Calendar} from "@/components/ui/calendar";
 
 const accountTypes = [
     { value: 'Public', label: 'Ministry of Health' },
@@ -72,8 +73,8 @@ export default function SignupPage(){
         defaultValues:{
             email: '',
             accountType: undefined,
-            // organizationName: '',
-            // numberOfEmployees: 0
+            organizationName: '',
+            // numberOfEmployees: null
         }
     });
 
@@ -195,6 +196,15 @@ export default function SignupPage(){
                                                                         </Button>
                                                                     </FormControl>
                                                                </PopoverTrigger>
+                                                               <PopoverContent>
+                                                                    <Calendar mode="single"
+                                                                              defaultMonth={field.value}
+                                                                              selected={field.value}
+                                                                              onSelect={field.onChange}
+                                                                              fixedWeeks
+                                                                              weekStartsOn={1}
+                                                                    />
+                                                               </PopoverContent>
                                                            </Popover>
                                                        <FormMessage />
                                                    </FormItem>
