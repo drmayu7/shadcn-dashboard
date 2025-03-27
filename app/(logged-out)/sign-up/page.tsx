@@ -14,6 +14,7 @@ import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/c
 import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
 import { toast } from "sonner"
 import {Calendar} from "@/components/ui/calendar";
+import {format} from "date-fns";
 
 const accountTypes = [
     { value: 'Public', label: 'Ministry of Health' },
@@ -193,7 +194,9 @@ export default function SignupPage(){
                                                                     <FormControl>
                                                                         <Button variant='outline'
                                                                                 className='normal-case flex justify-between pr-1'>
-                                                                            <span>Pick a date</span>
+                                                                            {!!field.value ?
+                                                                                format(field.value,"PPP") :
+                                                                                <span>Pick a date</span>}
                                                                             <CalendarIcon />
                                                                         </Button>
                                                                     </FormControl>
@@ -207,6 +210,11 @@ export default function SignupPage(){
                                                                               weekStartsOn={1}
                                                                               fromDate={dobFromDate}
                                                                               toDate={new Date()}
+                                                                              // disabled={[new Date('2025-03-24')]}
+                                                                              // disabled={(date)=>{
+                                                                              //       return date.getDay() === 0 || date.getDay() === 6
+                                                                              // }}
+                                                                              captionLayout="dropdown-buttons" // must have fromDate and toDate props
                                                                     />
                                                                </PopoverContent>
                                                            </Popover>
