@@ -2,10 +2,12 @@
 
 import * as React from "react"
 import { ChevronLeft, ChevronRight } from "lucide-react"
-import { DayPicker } from "react-day-picker"
+import { DayPicker, useDayPicker, useNavigation } from "react-day-picker"
 
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
+import { format } from "date-fns";
+import { Select, SelectContent, SelectItem, SelectTrigger } from "./select"
 
 function Calendar({
   className,
@@ -21,7 +23,7 @@ function Calendar({
         months: "flex flex-col sm:flex-row gap-2",
         month: "flex flex-col gap-4",
         caption: "flex justify-center pt-1 relative items-center w-full",
-        caption_label: "text-sm font-medium",
+        caption_label: "text-sm font-medium hidden", // Hide the month label for custom caption
         nav: "flex items-center gap-1",
         nav_button: cn(
           buttonVariants({ variant: "outline" }),
@@ -57,6 +59,7 @@ function Calendar({
         day_range_middle:
           "aria-selected:bg-accent aria-selected:text-accent-foreground",
         day_hidden: "invisible",
+          caption_dropdowns:"flex gap-0.25 items-center",
         ...classNames,
       }}
       components={{
@@ -66,6 +69,66 @@ function Calendar({
         IconRight: ({ className, ...props }) => (
           <ChevronRight className={cn("size-4", className)} {...props} />
         ),
+          Dropdown: (dropdownProps) => {
+            // console.log(dropdownProps)
+              const { currentMonth,goToMonth } = useNavigation()
+              let selectValues: { value: string ; label: string }[] = []; // typing the values of the dropdown
+              const { fromYear,fromMonth,fromDate,toYear,toMonth,toDate } = useDayPicker();
+
+            if (dropdownProps.name === "months"){
+                selectValues = Array.from({length:12}, (_,i)=>{
+                    return{
+                        value: i.toString(),
+                        label: format(new Date(new Date().getFullYear(),i,1), "MMM")
+                    }
+                })
+            } else if (dropdownProps.name === "years"){
+                const earliestYear = fromYear || fromMonth?.getFullYear() || fromDate?.getFullYear();
+                const latestYear= toYear || toMonth?.getFullYear() || toDate?.getFullYear();
+
+                if(earliestYear && latestYear){
+                    const yearsLength = latestYear - earliestYear +1;
+
+                    selectValues = Array.from({length:yearsLength}, (_,i)=> {
+                        return{
+                            value : (earliestYear + i).toString(),
+                            label : (earliestYear + i).toString(),
+                        }
+                    })
+                }
+            }
+
+            const caption = format (
+                currentMonth,
+                dropdownProps.name ==='months' ? "MMM" : "yyyy"
+            );
+
+
+            return(
+                <Select onValueChange={(newValue)=>{
+                    if(dropdownProps.name === "months"){
+                        const newDate= new Date(currentMonth);
+                        newDate.setMonth(parseInt(newValue));
+                        goToMonth(newDate);
+                    } else if(dropdownProps.name === "years"){
+                        const newDate= new Date(currentMonth);
+                        newDate.setFullYear(parseInt(newValue));
+                        goToMonth(newDate);
+                    }
+                }} value={dropdownProps.value?.toString()}>
+                    <SelectTrigger>
+                        {caption}
+                    </SelectTrigger>
+                    <SelectContent>
+                        {selectValues.map(selectValue => (
+                            <SelectItem key={selectValue.value} value={selectValue.value}>
+                                {selectValue.label}
+                            </SelectItem>
+                        ))}
+                    </SelectContent>
+                </Select>
+            )
+          }
       }}
       {...props}
     />

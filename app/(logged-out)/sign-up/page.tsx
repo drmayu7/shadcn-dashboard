@@ -73,8 +73,8 @@ export default function SignupPage(){
         resolver: zodResolver(formSchema),
         defaultValues:{
             email: '',
-            accountType: undefined,
-            organizationName: '',
+            // accountType: undefined,
+            // organizationName: '',
             // numberOfEmployees: null
         }
     });
