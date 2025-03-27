@@ -35,9 +35,9 @@ const accountTypeEnum = z.enum([accountTypeValues[0], ...accountTypeValues.slice
 
 const formSchema = z
     .object({
-        email: z.string().min(1, { message: "Email is required" }).email({ message: "Invalid email address" }),
+        email: z.string().min(1,"Email is required").email( "Invalid email address" ),
         accountType: accountTypeEnum,
-        organizationName: z.string().min(1, { message: "Organization name is required" }).optional(),
+        organizationName: z.string().min(1,"Organization name is required").optional(),
         numberOfEmployees: z.coerce.number().optional(),
         dob: z.date().refine((date) => {
             const today = new Date();
@@ -47,9 +47,24 @@ const formSchema = z
                 today.getDate()
             );
             return date <= eighteenYearsAgo;
-        },'You must be at least 18 years old')
+        },'You must be at least 18 years old'),
+        password: z
+            .string()
+            .min(8,"Password must contains at least 8 characters")
+            .refine((password) => {
+                return /^(?=.*[!@#$%^&*])(?=.*[A-Z]).*$/.test(password);
+            },"Password must contain at least 1 uppercase letter and 1 special character"),
+        passwordConfirm: z.string()
     })
     .superRefine((data, ctx) => {
+        if(data.password !== data.passwordConfirm){
+            ctx.addIssue({
+                code: z.ZodIssueCode.custom,
+                path: ['passwordConfirm'],
+                message: 'Password confirmation do not match',
+            })
+        }
+
         if (data.accountType === 'Private' && !data.organizationName) {
             ctx.addIssue({
                 code: z.ZodIssueCode.custom,
@@ -221,6 +236,40 @@ export default function SignupPage(){
                                                        <FormMessage />
                                                    </FormItem>
                                                )}/>
+                            <FormField control={form.control}
+                                       name="password"
+                                       render={
+                                           ({field})=> (
+                                               <FormItem>
+                                                   <FormLabel>
+                                                       Password
+                                                   </FormLabel>
+                                                   <FormControl>
+                                                       <Input
+                                                           placeholder='••••••••••'
+                                                           type='password'
+                                                           {...field}/>
+                                                   </FormControl>
+                                                   <FormMessage />
+                                               </FormItem>
+                                           )}/>
+                            <FormField control={form.control}
+                                       name="passwordConfirm"
+                                       render={
+                                           ({field})=> (
+                                               <FormItem>
+                                                   <FormLabel>
+                                                       Confirm password
+                                                   </FormLabel>
+                                                   <FormControl>
+                                                       <Input
+                                                           placeholder='••••••••••'
+                                                           type='password'
+                                                           {...field}/>
+                                                   </FormControl>
+                                                   <FormMessage />
+                                               </FormItem>
+                                           )}/>
                             <Button type="submit">Sign up</Button>
                         </form>
                     </Form>
