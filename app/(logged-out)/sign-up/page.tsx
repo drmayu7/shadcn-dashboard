@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import {BrainIcon, CalendarIcon} from "lucide-react";
 
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
+import {Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
 import {Input} from "@/components/ui/input";
 
 import * as z from "zod";
@@ -16,6 +16,7 @@ import { toast } from "sonner"
 import {Calendar} from "@/components/ui/calendar";
 import {format} from "date-fns";
 import { PasswordInput } from "@/components/ui/password-input";
+import {Checkbox} from "@/components/ui/checkbox";
 
 const accountTypes = [
     { value: 'Public', label: 'Ministry of Health' },
@@ -93,6 +94,9 @@ const baseSchema = z
             );
             return date <= eighteenYearsAgo;
         },'You must be at least 18 years old'),
+        acceptTerms: z.boolean().refine(val => val, {
+            message: "You must accept the terms and conditions",
+        }),
     })
 
 //Combine the schemas
@@ -113,10 +117,11 @@ export default function SignupPage(){
     const handleSubmit = (data: z.infer<typeof formSchema>) => {
         toast(
             <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+            <text className="text-slate-400">Sign-up validation passed</text>
+                <br />
           <code className="text-white">{JSON.stringify(data, null, 2)}</code>
         </pre>
         );
-        console.log('sign-up validation passed');
     };
 
     const accountType = form.watch('accountType')
@@ -277,6 +282,28 @@ export default function SignupPage(){
                                                    <FormControl>
                                                        <PasswordInput placeholder='••••••••••' {...field}/>
                                                    </FormControl>
+                                                   <FormMessage />
+                                               </FormItem>
+                                           )}/>
+                            <FormField control={form.control}
+                                       name="acceptTerms"
+                                       render={
+                                           ({field})=> (
+                                               <FormItem>
+                                                   <div className="flex gap-2 items-center">
+                                                       <FormControl>
+                                                           <Checkbox
+                                                               checked={field.value}
+                                                               onCheckedChange={field.onChange}/>
+                                                       </FormControl>
+                                                       <FormLabel>
+                                                           I accept the terms and conditions
+                                                       </FormLabel>
+                                                   </div>
+                                                    <FormDescription>
+                                                         By signing up you agree to our{" "}
+                                                        <Link href="/terms" className='text-primary hover:underline'>terms and conditions</Link>
+                                                    </FormDescription>
                                                    <FormMessage />
                                                </FormItem>
                                            )}/>
