@@ -17,6 +17,7 @@ import {Calendar} from "@/components/ui/calendar";
 import {format} from "date-fns";
 import { PasswordInput } from "@/components/ui/password-input";
 import {Checkbox} from "@/components/ui/checkbox";
+import {useRouter} from "next/navigation";
 
 const accountTypes = [
     { value: 'Public', label: 'Ministry of Health' },
@@ -103,7 +104,7 @@ const baseSchema = z
 const formSchema = baseSchema.and(passwordSchema).and(accountTypeSchema);
 
 export default function SignupPage(){
-
+    const router = useRouter();
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues:{
@@ -122,6 +123,7 @@ export default function SignupPage(){
           <code className="text-white">{JSON.stringify(data, null, 2)}</code>
         </pre>
         );
+        router.push("/login");
     };
 
     const accountType = form.watch('accountType')
