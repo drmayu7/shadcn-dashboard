@@ -15,6 +15,7 @@ import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
 import { toast } from "sonner"
 import {Calendar} from "@/components/ui/calendar";
 import {format} from "date-fns";
+import { PasswordInput } from "@/components/ui/password-input";
 
 const accountTypes = [
     { value: 'Public', label: 'Ministry of Health' },
@@ -105,7 +106,7 @@ export default function SignupPage(){
             email: '',
             // accountType: undefined,
             // organizationName: '',
-            // numberOfEmployees: null
+            // numberOfEmployees: 0
         }
     });
 
@@ -260,10 +261,7 @@ export default function SignupPage(){
                                                        Password
                                                    </FormLabel>
                                                    <FormControl>
-                                                       <Input
-                                                           placeholder='••••••••••'
-                                                           type='password'
-                                                           {...field}/>
+                                                       <PasswordInput placeholder='••••••••••' {...field}/>
                                                    </FormControl>
                                                    <FormMessage />
                                                </FormItem>
@@ -277,10 +275,7 @@ export default function SignupPage(){
                                                        Confirm password
                                                    </FormLabel>
                                                    <FormControl>
-                                                       <Input
-                                                           placeholder='••••••••••'
-                                                           type='password'
-                                                           {...field}/>
+                                                       <PasswordInput placeholder='••••••••••' {...field}/>
                                                    </FormControl>
                                                    <FormMessage />
                                                </FormItem>

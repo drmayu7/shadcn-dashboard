@@ -5,7 +5,8 @@ import Link from "next/link";
 import { BrainIcon } from "lucide-react";
 
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
-import {Input} from "@/components/ui/input";
+import { Input } from "@/components/ui/input";
+import { PasswordInput } from "@/components/ui/password-input";
 
 import * as z from "zod";
 import { useForm } from "react-hook-form";
@@ -72,9 +73,7 @@ export default function LoginPage(){
                                                    Password
                                                </FormLabel>
                                                <FormControl>
-                                                   <Input type='password'
-                                                          placeholder='Enter your password'
-                                                          {...field}/>
+                                                   <PasswordInput placeholder='••••••••••' {...field}/>
                                                </FormControl>
                                                <FormMessage />
                                            </FormItem>
