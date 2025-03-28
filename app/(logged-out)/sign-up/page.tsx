@@ -40,7 +40,7 @@ const accountTypeSchema = z
     .object(
         {
             accountType: accountTypeEnum,
-            organizationName: z.string().min(1,"Organization name is required").optional(),
+            organizationName: z.string().optional(),
             numberOfEmployees: z.coerce.number().optional(),
         }
     )
@@ -113,10 +113,10 @@ export default function SignupPage(){
         resolver: zodResolver(formSchema),
         defaultValues:{
             email: '',
-            // password: '',
-            // passwordConfirm: '',
-            // organizationName: '',
-            // numberOfEmployees: ,
+            password: '',
+            passwordConfirm: '',
+            organizationName: '',
+            // numberOfEmployees: '',
             // accountType: undefined,
             // organizationName: '',
             // numberOfEmployees: 0
@@ -126,7 +126,7 @@ export default function SignupPage(){
     const handleSubmit = (data: z.infer<typeof formSchema>) => {
         toast(
             <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-            <text className="text-slate-400">Sign-up validation passed</text>
+            <code className="text-slate-400">Sign-up validation passed</code>
                 <br />
           <code className="text-white">{JSON.stringify(data, null, 2)}</code>
         </pre>
