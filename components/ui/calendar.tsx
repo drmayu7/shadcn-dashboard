@@ -29,8 +29,8 @@ function Calendar({
           buttonVariants({ variant: "outline" }),
           "size-7 bg-transparent p-0 opacity-50 hover:opacity-100"
         ),
-        nav_button_previous: "absolute left-1",
-        nav_button_next: "absolute right-1",
+        nav_button_previous: "absolute left-0",
+        nav_button_next: "absolute right-0",
         table: "w-full border-collapse space-x-1",
         head_row: "flex",
         head_cell:
@@ -59,7 +59,7 @@ function Calendar({
         day_range_middle:
           "aria-selected:bg-accent aria-selected:text-accent-foreground",
         day_hidden: "invisible",
-          caption_dropdowns:"flex gap-0.25 items-center",
+          caption_dropdowns:"flex gap-0.5 items-center",
         ...classNames,
       }}
       components={{
