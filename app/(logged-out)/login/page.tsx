@@ -33,7 +33,7 @@ export default function LoginPage(){
     const handleSubmit = (data:z.infer<typeof formSchema>) => {
         toast(
             <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-            <text className="text-slate-400">Login validation passed</text>
+            <code className="text-slate-400">Login validation passed</code>
                 <br />
           <code className="text-white">{JSON.stringify(data, null, 2)}</code>
         </pre>
