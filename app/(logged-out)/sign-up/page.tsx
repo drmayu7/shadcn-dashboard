@@ -95,7 +95,11 @@ const baseSchema = z
             );
             return date <= eighteenYearsAgo;
         },'You must be at least 18 years old'),
-        acceptTerms: z.boolean().refine(val => val, {
+        acceptTerms: z
+            .boolean(
+            {required_error:'You must accept the terms and conditions'}
+        )
+            .refine(val => val, {
             message: "You must accept the terms and conditions",
         }),
     })
@@ -109,6 +113,10 @@ export default function SignupPage(){
         resolver: zodResolver(formSchema),
         defaultValues:{
             email: '',
+            // password: '',
+            // passwordConfirm: '',
+            // organizationName: '',
+            // numberOfEmployees: ,
             // accountType: undefined,
             // organizationName: '',
             // numberOfEmployees: 0
@@ -212,7 +220,9 @@ export default function SignupPage(){
                                                                placeholder='Please enter a number'
                                                                type='number'
                                                                min={0}
-                                                               {...field}/>
+                                                               {...field}
+                                                               value={field.value ?? ""}
+                                                           />
                                                        </FormControl>
                                                        <FormMessage />
                                                    </FormItem>
