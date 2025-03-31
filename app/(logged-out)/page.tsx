@@ -6,7 +6,7 @@ export default function LandingPage(){
     return (
         <>
             <h1 className="flex gap-2 items-center">
-                <BrainIcon size={50} className="text-indigo-600"/> MyHarmony
+                <BrainIcon size={50} className="text-primary"/> MyHarmony
             </h1>
             <p>
                 Revolutionizing unstructured data management in MyHDW using Natural Language Processing
