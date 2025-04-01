@@ -14,7 +14,7 @@ export default function DashboardLayout({children}: {children: React.ReactNode})
                         />
                         <AvatarFallback>CN</AvatarFallback>
                     </Avatar>
-                    <h1 className='pb-4'>Welcome back, Mayu!</h1>
+                    <h1 className='pb-4'>Welcome back, Dr. Naufal!</h1>
                 </div>
                 {children}
             </div>
