@@ -7,7 +7,7 @@ export default function DashboardLayout({children}: {children: React.ReactNode})
         <div className="grid grid-cols-[250px_1fr] h-screen">
             <MainMenu />
             <div className="overflow-auto py-2 px-4">
-                <div className="flex gap-2 items-center">
+                <div className="flex gap-2 items-center py-4">
                     <h1>Welcome back, Dr. Naufal!</h1>
                     <Avatar className="size-10 ml-auto">
                         <AvatarImage
