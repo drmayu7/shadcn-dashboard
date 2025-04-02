@@ -1,5 +1,5 @@
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs";
-import StaffStats from "./components/staff-stats";
+import StaffStats from "./components/staff/staff-stats";
 
 export default function DashboardPage(){
     return (
