@@ -70,7 +70,7 @@ export default function TeamStats() {
                             <PieChartIcon />
                         </CardTitle>
                     </CardHeader>
-                    <CardContent>
+                    <CardContent className="pb-0">
                         <TeamDistributionChart />
                     </CardContent>
                 </Card>
