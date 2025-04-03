@@ -92,7 +92,8 @@ export default function StaffStats() {
                     </CardFooter>
                 </Card>
             </div>
-            <Card className="my-4">
+            <div className="my-4">
+            <Card>
                 <CardHeader>
                     <CardTitle className="text-lg flex items-center gap-2">
                         <LaptopIcon />
@@ -103,6 +104,7 @@ export default function StaffStats() {
                     </CardContent>
                 </CardHeader>
             </Card>
+            </div>
         </>
     )
 }
