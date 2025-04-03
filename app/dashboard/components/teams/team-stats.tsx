@@ -64,7 +64,7 @@ export default function TeamStats() {
                         ))}
                     </CardContent>
                 </Card>
-                <Card>
+                <Card className="gap-0">
                     <CardHeader className="pb-2">
                         <CardTitle className="text-base flex justify-between items-center">
                             <span>Team distribution</span>
