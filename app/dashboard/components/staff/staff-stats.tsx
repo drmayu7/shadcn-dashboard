@@ -99,7 +99,7 @@ export default function StaffStats() {
                         <LaptopIcon />
                         <span>Employee work location trends</span>
                     </CardTitle>
-                    <CardContent>
+                    <CardContent className="pl-0">
                         <WorkLocationTrends />
                     </CardContent>
                 </CardHeader>
