@@ -12,6 +12,7 @@ import Link from "next/link";
 import Image from "next/image";
 import {Avatar, AvatarFallback} from "@/components/ui/avatar";
 import cm from '@/public/images/cm.jpg'
+import WorkLocationTrends from "./work-location-trends";
 
 export default function StaffStats() {
     const totalEmployees = 20;
@@ -97,6 +98,9 @@ export default function StaffStats() {
                         <LaptopIcon />
                         <span>Employee work location trends</span>
                     </CardTitle>
+                    <CardContent>
+                        <WorkLocationTrends />
+                    </CardContent>
                 </CardHeader>
             </Card>
         </>
