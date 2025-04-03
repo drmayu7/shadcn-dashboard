@@ -4,9 +4,10 @@ import {Button} from "@/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
 import {Avatar,AvatarFallback} from "@/components/ui/avatar";
-import {teamLeaders} from "./teamLeaders";
+import {teamLeaders} from "./data/teamLeaders";
 import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip";
 import TeamDistributionChart from "./team-distribution-chart";
+import SupportTicketResolved from "./support-ticket-resolved";
 
 export default function TeamStats() {
 
@@ -83,7 +84,7 @@ export default function TeamStats() {
                             <span>Support tickets resolved</span>
                         </CardTitle>
                         <CardContent className="pl-0">
-                            Line Graph
+                            <SupportTicketResolved />
                         </CardContent>
                     </CardHeader>
                 </Card>

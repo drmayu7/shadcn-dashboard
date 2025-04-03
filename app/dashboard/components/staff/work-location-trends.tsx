@@ -1,6 +1,6 @@
 'use client';
 
-import {data} from "./data"
+import {data} from "./data/data"
 import {Bar, BarChart, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis} from "recharts";
 
 export default function WorkLocationTrends() {

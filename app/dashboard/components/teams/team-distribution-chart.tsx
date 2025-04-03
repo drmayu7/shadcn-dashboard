@@ -1,5 +1,5 @@
 'use client';
-import {data} from "./data-pie";
+import {data} from "./data/data-pie";
 import {Cell, Pie, PieChart, ResponsiveContainer, Tooltip} from "recharts";
 
 
