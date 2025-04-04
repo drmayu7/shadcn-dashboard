@@ -20,7 +20,6 @@ export default function SupportTicketResolved() {
                      <span className="capitalize">{value}</span>
            }/>
        </LineChart>
-
    </ResponsiveContainer>
   );
 }
