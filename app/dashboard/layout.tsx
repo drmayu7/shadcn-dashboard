@@ -1,11 +1,18 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import MainMenu from "./components/main-menu";
+import MenuTitle from "./components/menu-title";
 
 
 export default function DashboardLayout({children}: {children: React.ReactNode}){
     return (
-        <div className="grid grid-cols-[250px_1fr] h-screen">
-            <MainMenu />
+        <div className="grid md:grid-cols-[250px_1fr] h-screen">
+            <MainMenu className="hidden md:flex"/>
+            {/*Mobile view*/}
+            <div className="p-4 block md:hidden sticky top-0 left-0 bg-background border-b border-border">
+                <MenuTitle />
+            </div>
+
+            {/*Desktop view*/}
             <div className="overflow-auto py-2 px-4">
                 <div className="flex gap-2 items-center py-4">
                     <h1>Welcome back, Dr. Naufal!</h1>
