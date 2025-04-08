@@ -3,7 +3,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import MainMenu from "./components/main-menu";
 import MenuTitle from "./components/menu-title";
-import {Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger} from "@/components/ui/drawer";
+import {Drawer, DrawerContent, DrawerTitle, DrawerTrigger} from "@/components/ui/drawer";
 import {MenuIcon} from "lucide-react";
 import {useMediaQuery} from "@/hooks/use-media-query";
 
@@ -12,18 +12,19 @@ export default function DashboardLayout({children}: {children: React.ReactNode})
     const isDesktop = useMediaQuery("(min-width: 768px)")
 
     return (
-        <div className="grid md:grid-cols-[250px_1fr] h-screen">
+        <div className="md:grid grid-cols-[250px_1fr] h-screen">
             <MainMenu className="hidden md:flex"/>
             {/*Mobile view*/}
             {!isDesktop && (
                 <div
                     className="p-4 flex justify-between md:hidden sticky top-0 left-0 bg-background border-b border-border">
                     <MenuTitle/>
-                    <Drawer>
+                    <Drawer direction="right">
                         <DrawerTrigger>
                             <MenuIcon/>
                         </DrawerTrigger>
                         <DrawerContent>
+                            <DrawerTitle hidden>MyHarmony Mobile Menu</DrawerTitle>
                             <MainMenu/>
                         </DrawerContent>
                     </Drawer>
