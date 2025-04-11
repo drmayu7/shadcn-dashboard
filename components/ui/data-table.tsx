@@ -84,8 +84,9 @@ export function DataTable<TData, TValue>({
                         )}
                     </TableBody>
                 </Table>
-                <div className="flex items-center justify-end space-x-2 py-4 pr-2">
+                <div className="flex items-center justify-end space-x-2 pt-10 pr-2">
                     <Button
+                        className="normal-case font-normal text-xs"
                         variant="outline"
                         size="sm"
                         onClick={() => table.previousPage()}
@@ -94,6 +95,7 @@ export function DataTable<TData, TValue>({
                         Previous
                     </Button>
                     <Button
+                        className="normal-case font-normal text-xs"
                         variant="outline"
                         size="sm"
                         onClick={() => table.nextPage()}
