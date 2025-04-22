@@ -11,34 +11,39 @@ import { PasswordInput } from "@/components/ui/password-input";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {toast} from "sonner";
-import {useRouter} from "next/navigation";
 
+import {login} from "@/components/actions/login-action";
 
-const formSchema = z.object({
-    email: z.string().min(1, { message: "Email is required" }).email({ message: "Invalid email address" }),
-    password: z.string().min(1, { message: "Password is required" }),
-});
+import { loginSchema } from "@/lib/definitions";
+// import {toast} from 'sonner'
+
+type FormValues = z.infer<typeof loginSchema>;
 
 export default function LoginPage(){
-    const router = useRouter();
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
+    // const router = useRouter();
+    const form = useForm<FormValues>({
+        resolver: zodResolver(loginSchema),
         defaultValues:{
-            email: '',
+            username: '',
             password: '',
         }
     });
 
-    const handleSubmit = (data:z.infer<typeof formSchema>) => {
-        toast(
-            <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-            <code className="text-slate-400">Login validation passed</code>
-                <br />
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-        );
-        router.push("/dashboard");
+    async function onSubmit(data: FormValues) {
+        const formData = new FormData();
+        formData.append('username', data.username);
+        formData.append('password', data.password);
+
+        // await login(formData);
+        //     toast(
+        //         <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+        //         <code className="text-slate-400">Login validation passed</code>
+        //             <br />
+        //       <code className="text-white">{JSON.stringify(data, null, 2)}</code>
+        //     </pre>
+        //     );
+        //     router.push("/dashboard");
+        const result = await login(formData);
     }
 
     return(
@@ -55,9 +60,9 @@ export default function LoginPage(){
                 </CardHeader>
                 <CardContent>
                     <Form {...form}>
-                        <form className="flex flex-col gap-4" onSubmit={form.handleSubmit(handleSubmit)}>
+                        <form className="flex flex-col gap-4" onSubmit={form.handleSubmit(onSubmit)}>
                             <FormField control={form.control}
-                                       name="email"
+                                       name="username"
                                        render={({field})=> (
                                 <FormItem>
                                     <FormLabel>
